@@ -1,26 +1,18 @@
 #!/bin/sh -l
 
-if [$INPUT_DEBUG]
-then
-    DEBUG_FLAG="--verbose"
-else
-    DEBUG_FLAG=""
-fi
-
 log() {
-  echo ">> [mina-action]" $@
+  echo ">> [mina-deploy-action]" $@
 }
 
 minaDeploy() {
-  log "Running mina $INPUT_ENVIRONMENT $INPUT_COMMAND $DEBUG_FLAG"
-  /usr/local/bundle/bin/mina $INPUT_ENVIRONMENT $INPUT_COMMAND $DEBUG_FLAG
+  log "Running mina $INPUT_ENVIRONMENT $INPUT_COMMAND"
+  /usr/local/bundle/bin/mina $INPUT_ENVIRONMENT $INPUT_COMMAND
 }
 
 configureSSH() {
   log "Configuring SSH."
-  mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-  ssh-keyscan "${INPUT_HOSTNAME}" >> ~/.ssh/known_hosts
   eval `ssh-agent -s`
+  echo "${INPUT_SSH_PRIVATE_KEY}" | ssh-add -
 }
 
 cleanup() {
@@ -29,6 +21,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-log "Starting mina action."
+log "Starting mina deploy action."
 configureSSH
 minaDeploy

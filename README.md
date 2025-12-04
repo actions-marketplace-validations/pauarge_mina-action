@@ -1,13 +1,9 @@
-# MINA CUSTOM ACTION FOR GITHUB
+# Mina deploy for GitHub Actions
 
 This action permits to use mina to deploy your application on your vps.
 It's is based on ruby:2.5.0 docker image. If you want to run with another version of ruby, you can change the Dockerfile and use your forked version.
 
 ## Inputs
-
-### `hostname`
-
-**Required** Host where to deploy.
 
 ### `ssh_private_key`
 
@@ -20,10 +16,6 @@ It's is based on ruby:2.5.0 docker image. If you want to run with another versio
 ### `environment`
 
 This is environment to deploy. If not provided it runs 'mina deploy' command.
-
-### `debug`
-
-Turn on verbose Mina deploy
 
 ## Example usage
 
